@@ -1,0 +1,39 @@
+
+spring:
+  application:
+    name: ai-music-backend
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      port: 55729
+  profiles:
+    active: dev
+
+# ====================================================
+# =               General Configuration              =
+# ====================================================
+server:
+  port: 8080
+  servlet:
+    context-path: /dev-api
+
+# MyBatis-Plus Configuration
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
+  configuration: # MyBatis raw configuration
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# MinIO Configuration
+
+# Logging Configuration
+logging:
+  level:
+    root: info # global logging level
+    org.demo.aimusic: debug # specific package logging level
+    org.springframework.web: info
+    org.springframework.security: info
+#    com.baomidou.mybatisplus: debug

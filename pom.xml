@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Project Coordinates -->
+    <!-- Defines the unique identifier for this project -->
+    <groupId>org.demo</groupId>
+    <artifactId>ai-music-generator</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <!-- The default packaging is 'jar' if not specified -->
+
+    <!-- Parent Project -->
+    <!-- Inherits configurations from the Spring Boot Starter Parent POM -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <!-- Using a property to manage the Spring Boot version -->
+        <version>3.5.7</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <!-- Project Metadata -->
+    <!-- General information about the project -->
+    <name>ai-music-generator</name>
+    <description>AI Music Generator project built with Spring Boot</description>
+    <!-- Optional: Add <url>, <licenses>, <developers>, <scm> if they contain meaningful information -->
+
+    <!-- Project Properties -->
+    <!-- Centralized management for versions and other configurations -->
+    <properties>
+        <java.version>21</java.version>
+        <swagger.version>2.2.38</swagger.version>
+        <mybatis-plus.version>3.5.14</mybatis-plus.version>
+        <jjwt.version>0.13.0</jjwt.version>
+        <minio.version>8.6.0</minio.version>
+        <!-- Add other dependency versions here for centralized management, e.g., <mysql.version>8.0.33</mysql.version> -->
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-bom</artifactId>
+                <version>${mybatis-plus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- Project Dependencies -->
+    <!-- Defines all libraries and modules required by this project -->
+    <dependencies>
+        <!-- Spring Boot Web Starter -->
+        <!-- Provides all necessary dependencies for building web applications with Spring MVC -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- Spring Boot DevTools -->
+        <!-- Enables hot-reloading, automatic restarts, and LiveReload for faster development cycles -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <!-- Spring Boot Configuration Processor -->
+        <!-- Generates metadata for custom configuration properties, enabling IDE auto-completion -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- Spring Boot Test Starter -->
+        <!-- Provides all necessary dependencies for testing Spring Boot applications -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Spring Boot Security Starter -->
+        <!-- Adds Spring Security features for authentication and authorization -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!-- Spring Boot Validation Starter -->
+        <!-- Provides support for bean validation using Hibernate Validator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <!-- Spring Boot Data Redis Starter -->
+        <!-- Provides integration with Redis for caching and data storage -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <!-- MySQL Connector/J -->
+        <!-- JDBC driver for MySQL database connectivity -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Lombok -->
+        <!-- A library that helps reduce boilerplate code for Java classes -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Swagger Annotations -->
+        <!-- Provides annotations for generating Swagger documentation -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+        <!-- MyBatis Plus Spring Boot Starter -->
+        <!-- Integrates MyBatis Plus with Spring Boot for enhanced ORM capabilities -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-jsqlparser</artifactId>
+        </dependency>
+
+        <!-- JJWT API -->
+        <!-- Java JWT library for creating and verifying JSON Web Tokens -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jjwt.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${jjwt.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- MinIO Java SDK -->
+        <!-- SDK for interacting with MinIO object storage server -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>${minio.version}</version>
+        </dependency>
+
+        <!-- Apache Commons Libraries -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <!-- Build Configuration -->
+    <!-- Defines how the project is built, including plugins and resources -->
+    <build>
+        <plugins>
+            <!-- Maven Compiler Plugin -->
+            <!-- Configures the Java compiler to process annotations, especially for Lombok and Spring Boot -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+            <!-- Spring Boot Maven Plugin -->
+            <!-- Provides Spring Boot support in Maven, allowing executable JARs and easy running -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <!-- Exclude Lombok from the final JAR to avoid potential issues if it's only used for compilation -->
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

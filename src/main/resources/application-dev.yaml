@@ -1,0 +1,28 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  # Database Configuration
+  datasource:
+    url: jdbc:mysql://localhost:3306/ai_music_db?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  # Redis Configuration
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+
+  # Security specific config for dev
+  security:
+    jwt:
+      secret: "YourVerySecretKeyForDevelopmentEnvironmentReplaceThisWithARandomLongString"
+      expiration-ms: 86400000 # 1 day in milliseconds
+
+# MinIO Configuration for dev
+minio:
+  endpoint: http://localhost:9199
+  access-key: minioadmin
+  secret-key: minioadmin
