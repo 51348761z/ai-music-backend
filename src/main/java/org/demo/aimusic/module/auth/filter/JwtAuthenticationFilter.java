@@ -34,7 +34,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(
       @NonNull HttpServletRequest request,
       @NonNull HttpServletResponse response,
-      @NonNull FilterChain filterChain){
+      @NonNull FilterChain filterChain)
+      throws ServletException, IOException {
 
     final String authHeader = request.getHeader(AUTHORIZATION_HEADER);
     final String jwt;
@@ -42,23 +43,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     // 1. Check if Authorization header exists and starts with specific prefix
     if (!StringUtils.hasText(authHeader) || !authHeader.startsWith(BEARER_PREFIX)) {
-      try {
-        filterChain.doFilter(request, response);
-      } catch (IOException | ServletException e) {
-        log.error("Error during filter chain: {}", e.getMessage());
-        throw new RuntimeException(e);
-      }
+      filterChain.doFilter(request, response);
+      return;
     }
 
     // 2. Extract JWT token
     jwt = authHeader.substring(BEARER_PREFIX.length());
 
-    try{
+    try {
       // 3. Extract user email from token
       userEmail = jwtUtil.extractUsername(jwt);
 
       // 4. Check if email is extracted and user is not already authenticate
-      if(StringUtils.hasText(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null) {
+      if (StringUtils.hasText(userEmail)
+          && SecurityContextHolder.getContext().getAuthentication() == null) {
 
         // 5. Load UserDetails from the database using UserDetailService
         UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
@@ -66,11 +64,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 6. Validate the token against the loaded UserDetails
         if (jwtUtil.validateToken(jwt, userDetails)) {
           // 7. If token is valid, create an Authentication object
-          UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-              userDetails,
-              null, // Credentials are null for JWT authentication
-              userDetails.getAuthorities() // User roles/permissions
-          );
+          UsernamePasswordAuthenticationToken authToken =
+              new UsernamePasswordAuthenticationToken(
+                  userDetails,
+                  null, // Credentials are null for JWT authentication
+                  userDetails.getAuthorities() // User roles/permissions
+                  );
           authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
           // 8. Set the Authentication object in the SecurityContextHolder
           SecurityContextHolder.getContext().setAuthentication(authToken);
@@ -79,19 +78,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
           log.warn("JWT token validation failed for user '{}'", userEmail);
         }
       }
-    } catch (ExpiredJwtException e){
+    } catch (ExpiredJwtException e) {
       log.warn("JWT token expired for user '{}'", e.getMessage());
-    } catch (JwtException e){
+    } catch (JwtException e) {
       log.error("Error parsing or validating JWT token: {}", e.getMessage());
-    } catch (Exception e){
+    } catch (Exception e) {
       log.error("Could not set user authentication in security context", e);
     }
 
     // 9. Continue the filter chain
-    try {
-      filterChain.doFilter(request, response);
-    } catch (IOException | ServletException e) {
-      throw new RuntimeException(e);
-    }
+    filterChain.doFilter(request, response);
   }
 }

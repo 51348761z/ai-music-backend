@@ -88,7 +88,10 @@ public class GlobalExceptionHandler {
                     String.format(
                         "'%s': %s", fieldError.getField(), fieldError.getDefaultMessage()))
             .collect(Collectors.joining("; "));
-    log.warn("Validation Exception (Params/Form): {} - Request: {}", errorDetails, request.getDescription(false));
+    log.warn(
+        "Validation Exception (Params/Form): {} - Request: {}",
+        errorDetails,
+        request.getDescription(false));
     return ApiResult.error(ApiResultCode.VALIDATION_ERROR_422, errorDetails);
   }
 
@@ -101,9 +104,12 @@ public class GlobalExceptionHandler {
    */
   @ExceptionHandler(AuthenticationException.class)
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
-  public ApiResult<Void> handleAuthenticationException(AuthenticationException ex, WebRequest request) {
-    log.warn("Authentication Failed: {} - Request: {}", ex.getMessage(), request.getDescription(false));
-    String message = (ex instanceof BadCredentialsException)? "Invalid credentials": "Authentication failed";
+  public ApiResult<Void> handleAuthenticationException(
+      AuthenticationException ex, WebRequest request) {
+    log.warn(
+        "Authentication Failed: {} - Request: {}", ex.getMessage(), request.getDescription(false));
+    String message =
+        (ex instanceof BadCredentialsException) ? "Invalid credentials" : "Authentication failed";
     return ApiResult.error(ApiResultCode.UNAUTHORIZED_401.getCode(), message);
   }
 
@@ -111,7 +117,7 @@ public class GlobalExceptionHandler {
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   public ApiResult<Void> handleJwtException(JwtException ex, WebRequest request) {
     log.warn("JWT Exception: {} - Request: {}", ex.getMessage(), request.getDescription(false));
-    String message = (ex instanceof ExpiredJwtException)? "Token has expired": "Invalid token";
+    String message = (ex instanceof ExpiredJwtException) ? "Token has expired" : "Invalid token";
     return ApiResult.error(ApiResultCode.UNAUTHORIZED_401.getCode(), message);
   }
 
@@ -124,15 +130,18 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
   @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-  public ApiResult<Void> handlesHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex, WebRequest request) {
-    log.warn("Method Not Allowed: {} - Request: {}", ex.getMessage(), request.getDescription(false));
+  public ApiResult<Void> handlesHttpRequestMethodNotSupportedException(
+      HttpRequestMethodNotSupportedException ex, WebRequest request) {
+    log.warn(
+        "Method Not Allowed: {} - Request: {}", ex.getMessage(), request.getDescription(false));
     return ApiResult.error(ApiResultCode.METHOD_NOT_ALLOWED_405);
   }
 
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ApiResult<Void> handlesGenericException(Exception ex, WebRequest request) {
-    log.error("Unhandled Exception: {} - Request: {}", ex.getMessage(), request.getDescription(false));
+    log.error(
+        "Unhandled Exception: {} - Request: {}", ex.getMessage(), request.getDescription(false));
     return ApiResult.error(ApiResultCode.INTERNAL_SERVER_ERROR_500);
   }
 }
