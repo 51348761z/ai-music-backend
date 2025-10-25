@@ -23,7 +23,7 @@ public class BusinessException extends RuntimeException {
 
   public BusinessException(String message) {
     super(message);
-    this.apiResultCode = ApiResultCode.BAD_REQUEST;
+    this.apiResultCode = ApiResultCode.BAD_REQUEST_400;
     this.details = message;
   }
 

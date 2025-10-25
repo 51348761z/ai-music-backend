@@ -16,10 +16,10 @@ spring:
       database: 0
 
   # Security specific config for dev
-  security:
-    jwt:
-      secret: "YourVerySecretKeyForDevelopmentEnvironmentReplaceThisWithARandomLongString"
-      expiration-ms: 86400000 # 1 day in milliseconds
+security:
+  jwt:
+    secret: "YourVerySecretKeyForDevelopmentEnvironmentReplaceThisWithARandomLongString"
+    expiration-ms: 86400000 # 1 day in milliseconds
 
 # MinIO Configuration for dev
 minio:
