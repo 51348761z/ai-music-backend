@@ -10,4 +10,5 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true) // Enable method-level security (e.g., @PreAuthorize, @Secured)
 @RequiredArgsConstructor
 public class SecurityConfig {
+    // TOOD: Add security configurations here
 }
