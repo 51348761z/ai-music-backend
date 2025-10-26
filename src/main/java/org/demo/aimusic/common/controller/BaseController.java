@@ -81,7 +81,7 @@ public abstract class BaseController {
    * @param <T> The type of the data payload (null in this case).
    * @return {@link ResponseEntity} containing {@link ApiResult} with error details.
    */
-  protected ResponseEntity<ApiResult<T>> fail(int code, String message, String details) {
+  protected <T> ResponseEntity<ApiResult<T>> fail(int code, String message, String details) {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
         .body(ApiResult.error(code, message, details));
   }
