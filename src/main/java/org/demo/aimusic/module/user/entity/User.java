@@ -1,4 +1,4 @@
-package org.demo.aimusic.module.User.entity;
+package org.demo.aimusic.module.user.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;

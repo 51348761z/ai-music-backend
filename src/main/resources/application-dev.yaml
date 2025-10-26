@@ -14,8 +14,13 @@ spring:
       host: localhost
       port: 6379
       database: 0
-
-  # Security specific config for dev
+  # JPA Configuration
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
+# Security specific config for dev
 security:
   jwt:
     secret: "YourVerySecretKeyForDevelopmentEnvironmentReplaceThisWithARandomLongString"
