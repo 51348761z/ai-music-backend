@@ -44,7 +44,7 @@ public class User implements Serializable {
 
   @Size(max = 255)
   @NotNull
-  @TableField("password_hash")
+  @TableField(value = "password_hash",select = false)
   private String passwordHash;
 
   @Size(max = 50)
