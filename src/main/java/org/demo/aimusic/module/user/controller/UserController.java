@@ -3,7 +3,6 @@ package org.demo.aimusic.module.user.controller;
 import lombok.RequiredArgsConstructor;
 import org.demo.aimusic.common.controller.BaseController;
 import org.demo.aimusic.common.dto.ApiResult;
-import org.demo.aimusic.common.enums.ApiResultCode;
 import org.demo.aimusic.module.user.dto.UserInfoDto;
 import org.demo.aimusic.module.user.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ public class UserController extends BaseController {
 
   @RequestMapping(value = "/me", method = RequestMethod.GET)
   public ResponseEntity<ApiResult<UserInfoDto>> getCurrentUserInfo() {
-    return fail(ApiResultCode.BAD_REQUEST_400, "Not implemented yet");
-    // TODO: get user id from security context
+    UserInfoDto userInfoDto = userService.getCurrentUserInfo();
+    return ok(userInfoDto);
   }
 }
