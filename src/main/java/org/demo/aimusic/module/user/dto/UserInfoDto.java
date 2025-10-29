@@ -1,5 +1,6 @@
 package org.demo.aimusic.module.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Data;
@@ -12,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 public class UserInfoDto {
   private String uuid;
   private String userIdStr;
+  @JsonProperty("username")
   private String email;
   private String nickname;
   private String avatarUrl;
