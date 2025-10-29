@@ -13,6 +13,7 @@ public class SecurityConstant {
   };
   public static final String[] LOGIN_WHITELIST = {
       "/dev-api/auth/login",
+      "/dev-api/auth/captcha",
       "/error"
   };
 }

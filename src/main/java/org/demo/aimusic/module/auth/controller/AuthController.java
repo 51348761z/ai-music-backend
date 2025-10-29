@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.demo.aimusic.common.controller.BaseController;
 import org.demo.aimusic.common.dto.ApiResult;
+import org.demo.aimusic.module.auth.dto.CaptchaResponse;
 import org.demo.aimusic.module.auth.dto.LoginRequest;
 import org.demo.aimusic.module.auth.dto.LoginResponse;
 import org.demo.aimusic.module.auth.service.AuthService;
@@ -30,7 +31,8 @@ public class AuthController extends BaseController {
   }
 
   @RequestMapping(value = "/captcha", method = RequestMethod.GET)
-  public ResponseEntity<ApiResult<String>> captcha(HttpServletRequest request) {
-    return fail(500, "Not implemented.");
+  public ResponseEntity<ApiResult<CaptchaResponse>> captcha(HttpServletRequest request) {
+    CaptchaResponse captchaResponse = authService.generateCaptcha();
+    return ok(captchaResponse);
   }
 }

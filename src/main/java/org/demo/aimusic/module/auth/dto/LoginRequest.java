@@ -14,6 +14,7 @@ public class LoginRequest {
   private String password;
 
   @NotBlank(message = "Captcha code must not be blank")
+  @JsonProperty("code")
   private String captchaCode;
 
   @NotBlank(message = "Captcha UUID must not be blank")
