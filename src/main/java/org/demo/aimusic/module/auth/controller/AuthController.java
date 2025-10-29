@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.annotation.RequestScope;
 
 @RestController("authController")
 @RequestMapping("/auth")
@@ -31,7 +30,7 @@ public class AuthController extends BaseController {
   }
 
   @RequestMapping(value = "/captcha", method = RequestMethod.GET)
-  public ResponseEntity<ApiResult<CaptchaResponse>> captcha(HttpServletRequest request) {
+  public ResponseEntity<ApiResult<CaptchaResponse>> captcha() {
     CaptchaResponse captchaResponse = authService.generateCaptcha();
     return ok(captchaResponse);
   }

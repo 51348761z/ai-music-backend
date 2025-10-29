@@ -9,14 +9,11 @@ import java.util.Optional;
 import org.demo.aimusic.common.dto.PageDto;
 import org.demo.aimusic.common.enums.ApiResultCode;
 import org.demo.aimusic.common.exception.BusinessException;
-import org.demo.aimusic.module.auth.dto.LoginRequest;
 import org.demo.aimusic.module.auth.dto.LoginUserDetails;
 import org.demo.aimusic.module.user.dto.UserInfoDto;
 import org.demo.aimusic.module.user.dto.UserQueryDto;
 import org.demo.aimusic.module.user.entity.User;
 import org.demo.aimusic.module.user.mapper.UserMapper;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -30,18 +27,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
   }
 
   @Override
-  public UserInfoDto getCurrentUserInfo() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-    if (authentication == null
-        || !authentication.isAuthenticated()
-        || !(authentication.getPrincipal() instanceof LoginRequest)) {
-      throw new BusinessException(ApiResultCode.UNAUTHORIZED_401, "User not authenticated");
-    }
-
-    LoginUserDetails loginUserDetails = (LoginUserDetails) authentication.getPrincipal();
+  public UserInfoDto getCurrentUserInfo(LoginUserDetails currentUser) {
     User user =
-        this.findByEmail(loginUserDetails.getUsername())
+        this.findByEmail(currentUser.getUsername())
             .orElseThrow(
                 () ->
                     new BusinessException(

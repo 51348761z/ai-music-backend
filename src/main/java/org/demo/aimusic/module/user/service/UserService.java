@@ -3,6 +3,7 @@ package org.demo.aimusic.module.user.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.Optional;
 import org.demo.aimusic.common.dto.PageDto;
+import org.demo.aimusic.module.auth.dto.LoginUserDetails;
 import org.demo.aimusic.module.user.dto.UserInfoDto;
 import org.demo.aimusic.module.user.dto.UserQueryDto;
 import org.demo.aimusic.module.user.entity.User;
@@ -15,11 +16,12 @@ public interface UserService extends IService<User> {
    */
   Optional<User> findByEmail(String email);
 
-  /**
-   * Gets the information of the currently authenticated user.
-   * @return {@link UserInfoDto} containing the current user's information
+  /**   * Get current logged-in user information
+   *
+   * @param currentUser the current logged-in user details
+   * @return the user information as {@link UserInfoDto}
    */
-  UserInfoDto getCurrentUserInfo();
+  UserInfoDto getCurrentUserInfo(LoginUserDetails currentUser);
 
   PageDto<UserInfoDto> listUsers(UserQueryDto userQueryDto);
 }
