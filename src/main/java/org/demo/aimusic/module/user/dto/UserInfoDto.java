@@ -24,6 +24,7 @@ public class UserInfoDto {
   public static UserInfoDto fromEntity(User user) {
     UserInfoDto dto = new UserInfoDto();
     BeanUtils.copyProperties(user, dto);
+    dto.setRoles(List.of(user.getRole()));
     return dto;
   }
 }
