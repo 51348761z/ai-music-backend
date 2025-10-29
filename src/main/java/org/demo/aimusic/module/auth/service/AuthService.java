@@ -1,5 +1,6 @@
 package org.demo.aimusic.module.auth.service;
 
+import org.demo.aimusic.module.auth.dto.CaptchaResponse;
 import org.demo.aimusic.module.auth.dto.LoginRequest;
 
 public interface AuthService {
@@ -12,4 +13,11 @@ public interface AuthService {
    * @throws org.springframework.security.core.AuthenticationException if authentication fails
    */
   String login(LoginRequest loginRequest);
+
+  /**
+   * Generates a new captcha consisting of a UUID and a base64-encoded image.
+   *
+   * @return {@link CaptchaResponse} containing the captcha details
+   */
+  CaptchaResponse generateCaptcha();
 }

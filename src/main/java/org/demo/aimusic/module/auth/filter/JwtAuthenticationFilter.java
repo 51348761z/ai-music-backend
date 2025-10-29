@@ -7,15 +7,21 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.demo.aimusic.common.constants.SecurityConstant;
 import org.demo.aimusic.common.util.JwtUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -30,6 +36,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private static final String AUTHORIZATION_HEADER = "Authorization";
   private static final String BEARER_PREFIX = "Bearer ";
 
+  List<RequestMatcher> publicMatchers =
+      Arrays.stream(SecurityConstant.LOGIN_WHITELIST)
+          .map(url -> PathPatternRequestMatcher.withDefaults().matcher(url))
+          .collect(Collectors.toList());
+
   @Override
   protected void doFilterInternal(
       @NonNull HttpServletRequest request,
@@ -37,9 +48,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       @NonNull FilterChain filterChain)
       throws ServletException, IOException {
 
+    if (isPublicUrl(request)) {
+      log.trace("Request to public URL [{}], skipping JWT filter.", request.getRequestURL());
+      log.info("Request to public URL [{}], skipping JWT filter.", request.getRequestURL());
+      filterChain.doFilter(request, response);
+      return;
+    }
+
     final String authHeader = request.getHeader(AUTHORIZATION_HEADER);
     final String jwt;
     final String userEmail; // using email as the username identifier
+    log.info("Incoming request to URI: {}", request.getRequestURI());
+    log.info("Authorization Header: {}", authHeader);
 
     // 1. Check if Authorization header exists and starts with specific prefix
     if (!StringUtils.hasText(authHeader) || !authHeader.startsWith(BEARER_PREFIX)) {
@@ -88,5 +108,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     // 9. Continue the filter chain
     filterChain.doFilter(request, response);
+  }
+
+  private boolean isPublicUrl(HttpServletRequest request) {
+    return publicMatchers.stream().anyMatch(matcher -> matcher.matches(request));
   }
 }

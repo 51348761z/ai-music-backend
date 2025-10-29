@@ -1,8 +1,8 @@
 package org.demo.aimusic.config;
 
 import java.util.Arrays;
-import java.util.Collections;
 import lombok.RequiredArgsConstructor;
+import org.demo.aimusic.common.constants.SecurityConstant;
 import org.demo.aimusic.module.auth.filter.JwtAuthenticationFilter;
 import org.demo.aimusic.module.auth.handler.JwtAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
@@ -38,14 +38,7 @@ public class SecurityConfig {
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
   private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-  private static final String[] PUBLIC_URLS = {
-    "/api/auth/**",
-    "/api/public/**",
-    "/v3/api-docs/**",
-    "/swagger-ui/**",
-    "/swagger-ui.html",
-    "/error"
-  };
+  private static final String[] PUBLIC_URLS = SecurityConstant.PUBLIC_URLS;
 
   /**
    * Password encoder bean using BCrypt hashing algorithm.
@@ -111,7 +104,8 @@ public class SecurityConfig {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.addAllowedOriginPattern(String.valueOf(Collections.singletonList("*")));
+    configuration.setAllowedOriginPatterns(
+        Arrays.asList("http://localhost:3333", "http://localhost"));
     configuration.setAllowedMethods(
         Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
     configuration.setAllowedHeaders(

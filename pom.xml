@@ -38,6 +38,7 @@
     <jackson-databind.version>2.20.0</jackson-databind.version>
     <junit.jupiter.version>5.12.2</junit.jupiter.version>
     <assertj.version>3.27.3</assertj.version>
+    <hutool.version>5.8.41</hutool.version>
     <!-- Add other dependency versions here for centralized management, e.g., <mysql.version>8.0.33</mysql.version> -->
   </properties>
 
@@ -218,6 +219,13 @@
       <artifactId>assertj-core</artifactId>
       <version>${assertj.version}</version>
       <scope>test</scope>
+    </dependency>
+
+    <!-- Hutool Captcha -->
+    <dependency>
+      <groupId>cn.hutool</groupId>
+      <artifactId>hutool-captcha</artifactId>
+      <version>${hutool.version}</version>
     </dependency>
 
   </dependencies>

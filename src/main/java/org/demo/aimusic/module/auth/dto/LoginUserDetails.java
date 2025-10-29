@@ -70,7 +70,7 @@ public class LoginUserDetails implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return "enable".equalsIgnoreCase(user.getStatus());
+    return "enabled".equalsIgnoreCase(user.getStatus());
   }
 
   public User getUserEntity() {

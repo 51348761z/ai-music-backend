@@ -3,6 +3,7 @@ package org.demo.aimusic.module.auth.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.demo.aimusic.common.util.JwtUtil;
+import org.demo.aimusic.module.auth.dto.CaptchaResponse;
 import org.demo.aimusic.module.auth.dto.LoginRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,5 +40,10 @@ public class AuthServiceImpl implements AuthService {
     log.info("Login successful for user: {}. Token generated.", userDetails.getUsername());
 
     return jwtToken;
+  }
+
+  @Override
+  public CaptchaResponse generateCaptcha() {
+    return null; // todo: implement captcha generation
   }
 }

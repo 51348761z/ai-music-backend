@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     log.debug("Attempting to load user by email: {}", email);
 
-    User user = userMapper.selectOne((new LambdaQueryWrapper<User>().eq(User::getEmail, email)));
+    User user = userMapper.selectByEmailForAuth(email);
     if (user == null) {
       log.warn("User not found with email: {}", email);
       throw new UsernameNotFoundException("User not found with email: " + email);

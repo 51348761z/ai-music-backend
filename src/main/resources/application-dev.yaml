@@ -31,3 +31,9 @@ minio:
   endpoint: http://localhost:9199
   access-key: minioadmin
   secret-key: minioadmin
+
+app:
+  initial-admin:
+    email: admin
+    password: admin123
+    nickname: Administrator
