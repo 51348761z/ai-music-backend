@@ -45,8 +45,7 @@ public class AuthServiceImpl implements AuthService {
       Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
       SecurityContextHolder.getContext()
-          .setAuthentication(
-              authenticationToken); // Set authentication in context though not necessary here
+          .setAuthentication(authentication); // Set authentication in security context
 
       UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 

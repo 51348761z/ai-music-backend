@@ -1,8 +1,6 @@
 package org.demo.aimusic.module.user.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.demo.aimusic.module.user.entity.User;
@@ -13,18 +11,17 @@ import org.springframework.beans.BeanUtils;
 public class UserInfoDto {
   private String uuid;
   private String userIdStr;
-  @JsonProperty("username")
   private String email;
   private String nickname;
   private String avatarUrl;
-  private List<String> roles;
-  private Integer pointBalance;
+  private String role;
+  private String status;
+  private Integer pointsBalance;
   private LocalDateTime creatAt;
 
   public static UserInfoDto fromEntity(User user) {
     UserInfoDto dto = new UserInfoDto();
     BeanUtils.copyProperties(user, dto);
-    dto.setRoles(List.of(user.getRole()));
     return dto;
   }
 }
