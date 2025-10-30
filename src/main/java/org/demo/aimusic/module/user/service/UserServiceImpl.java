@@ -6,19 +6,27 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 import org.demo.aimusic.common.dto.PageDto;
 import org.demo.aimusic.common.enums.ApiResultCode;
 import org.demo.aimusic.common.exception.BusinessException;
+import org.demo.aimusic.common.util.GeneratorUtil;
 import org.demo.aimusic.module.auth.dto.LoginUserDetails;
+import org.demo.aimusic.module.user.dto.CreateUserDto;
 import org.demo.aimusic.module.user.dto.UserInfoDto;
 import org.demo.aimusic.module.user.dto.UserQueryDto;
 import org.demo.aimusic.module.user.entity.User;
 import org.demo.aimusic.module.user.mapper.UserMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+
+  private final PasswordEncoder passwordEncoder;
 
   @Override
   public Optional<User> findByEmail(String email) {
@@ -60,5 +68,37 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         new Page<>(userPage.getCurrent(), userPage.getSize(), userPage.getTotal());
     resultPage.setRecords(userInfoDtoList);
     return PageDto.fromPage(resultPage);
+  }
+
+  @Override
+  public UserInfoDto createUser(CreateUserDto createUserDto) {
+    this.findByEmail(createUserDto.getEmail())
+        .ifPresent(
+            user -> {
+              throw new BusinessException(
+                  ApiResultCode.CONFLICT_409,
+                  "Email " + user.getEmail() + " is already registered.");
+            });
+    String hashedPassword = passwordEncoder.encode(createUserDto.getPassword());
+
+    User newUser =
+        User.builder()
+            .email(createUserDto.getEmail())
+            .nickname(createUserDto.getNickname())
+            .userIdStr(GeneratorUtil.generatedUniqueUserIdStr())
+            .uuid(UUID.randomUUID().toString())
+            .role(createUserDto.getRole())
+            .status(createUserDto.getStatus())
+            .passwordHash(hashedPassword)
+            .version(0)
+            .pointsBalance(0)
+            .build();
+
+    if (!this.save(newUser)) {
+      throw new BusinessException(
+          ApiResultCode.INTERNAL_SERVER_ERROR_500, "Failed to save new user to database.");
+    }
+
+    return UserInfoDto.fromEntity(newUser);
   }
 }

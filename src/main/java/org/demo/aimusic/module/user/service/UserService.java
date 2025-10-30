@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.Optional;
 import org.demo.aimusic.common.dto.PageDto;
 import org.demo.aimusic.module.auth.dto.LoginUserDetails;
+import org.demo.aimusic.module.user.dto.CreateUserDto;
 import org.demo.aimusic.module.user.dto.UserInfoDto;
 import org.demo.aimusic.module.user.dto.UserQueryDto;
 import org.demo.aimusic.module.user.entity.User;
@@ -23,5 +24,17 @@ public interface UserService extends IService<User> {
    */
   UserInfoDto getCurrentUserInfo(LoginUserDetails currentUser);
 
+  /**
+   * List users with pagination and optional filtering
+   * @param userQueryDto the query parameters for filtering and pagination
+   * @return a {@link PageDto} containing the paginated list of {@link UserInfoDto}
+   */
   PageDto<UserInfoDto> listUsers(UserQueryDto userQueryDto);
+
+  /**
+   * Create a new user
+   * @param createUserDto the data for creating the new user
+   * @return the created user's information as {@link UserInfoDto}
+   */
+  UserInfoDto createUser(CreateUserDto createUserDto);
 }
