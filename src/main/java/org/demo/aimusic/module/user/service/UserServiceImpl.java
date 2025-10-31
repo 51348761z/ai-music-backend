@@ -14,10 +14,12 @@ import org.demo.aimusic.common.exception.BusinessException;
 import org.demo.aimusic.common.util.GeneratorUtil;
 import org.demo.aimusic.module.auth.dto.LoginUserDetails;
 import org.demo.aimusic.module.user.dto.CreateUserDto;
+import org.demo.aimusic.module.user.dto.UpdateUserDto;
 import org.demo.aimusic.module.user.dto.UserInfoDto;
 import org.demo.aimusic.module.user.dto.UserQueryDto;
 import org.demo.aimusic.module.user.entity.User;
 import org.demo.aimusic.module.user.mapper.UserMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -100,5 +102,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     return UserInfoDto.fromEntity(newUser);
+  }
+
+  @Override
+  public UserInfoDto updateUser(String uuid, UpdateUserDto updateUserDto) {
+    User user =
+        Optional.ofNullable(
+                this.baseMapper.selectOne((new LambdaQueryWrapper<User>()).eq(User::getUuid, uuid)))
+            .orElseThrow(
+                () ->
+                    new BusinessException(
+                        ApiResultCode.NOT_FOUND_404, "User with UUID " + uuid + " not found."));
+
+    BeanUtils.copyProperties(updateUserDto, user);
+
+    if (!this.updateById(user)) {
+      throw new BusinessException(
+          ApiResultCode.CONFLICT_409, "Failed to update user with UUID " + uuid + ".");
+    }
+
+    return UserInfoDto.fromEntity(user);
   }
 }

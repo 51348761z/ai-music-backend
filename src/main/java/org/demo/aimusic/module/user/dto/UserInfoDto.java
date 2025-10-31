@@ -18,6 +18,7 @@ public class UserInfoDto {
   private String status;
   private Integer pointsBalance;
   private LocalDateTime creatAt;
+  private Integer version;
 
   public static UserInfoDto fromEntity(User user) {
     UserInfoDto dto = new UserInfoDto();

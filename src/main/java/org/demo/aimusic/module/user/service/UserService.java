@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.demo.aimusic.common.dto.PageDto;
 import org.demo.aimusic.module.auth.dto.LoginUserDetails;
 import org.demo.aimusic.module.user.dto.CreateUserDto;
+import org.demo.aimusic.module.user.dto.UpdateUserDto;
 import org.demo.aimusic.module.user.dto.UserInfoDto;
 import org.demo.aimusic.module.user.dto.UserQueryDto;
 import org.demo.aimusic.module.user.entity.User;
@@ -37,4 +38,12 @@ public interface UserService extends IService<User> {
    * @return the created user's information as {@link UserInfoDto}
    */
   UserInfoDto createUser(CreateUserDto createUserDto);
+
+  /**
+   * Update an existing user
+   * @param uuid the UUID of the user to update
+   * @param updateUserDto the data for updating the user
+   * @return the updated user's information as {@link UserInfoDto}
+   */
+  UserInfoDto updateUser(String uuid, UpdateUserDto updateUserDto);
 }
