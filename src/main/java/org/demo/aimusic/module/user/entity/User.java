@@ -66,20 +66,24 @@ public class User implements Serializable {
   @Size(max = 50)
   @NotNull
   @TableField("role")
+  @Builder.Default
   private String role = "user";
 
   @NotNull
   @TableField("points_balance")
+  @Builder.Default
   private Integer pointsBalance = 0;
 
   @Size(max = 20)
   @NotNull
   @TableField("status")
+  @Builder.Default
   private String status = "enabled";
 
   @NotNull
   @Version
   @TableField("version")
+  @Builder.Default
   private Integer version = 0;
 
   @NotNull

@@ -35,9 +35,10 @@ security:
 
 # MinIO Configuration for dev
 minio:
-  endpoint: http://localhost:9199
+  endpoint: http://localhost:9000
   access-key: minioadmin
   secret-key: minioadmin
+  bucket: "ai-music-works"
 
 app:
   initial-admin:
