@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.demo.aimusic.common.dto.PageDto;
 import org.demo.aimusic.common.enums.ApiResultCode;
 import org.demo.aimusic.common.exception.BusinessException;
@@ -26,6 +27,7 @@ import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
   private final PasswordEncoder passwordEncoder;
@@ -122,5 +124,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     return UserInfoDto.fromEntity(user);
+  }
+
+  @Override
+  public void deleteUser(String uuid) {
+    User user =
+        Optional.ofNullable(
+                this.baseMapper.selectOne((new LambdaQueryWrapper<User>()).eq(User::getUuid, uuid)))
+            .orElseThrow(
+                () ->
+                    new BusinessException(
+                        ApiResultCode.NOT_FOUND_404, "User with UUID " + uuid + " not found."));
+
+    if ("disabled".equalsIgnoreCase(user.getStatus())) {
+      log.warn("User with UUID {} is already disabled.", uuid);
+      return;
+    }
+
+    user.setStatus("disabled");
+
+    if (!this.updateById(user)) {
+      throw new BusinessException(
+          ApiResultCode.CONFLICT_409, "Failed to disable user with UUID " + uuid + ".");
+    }
+
+    log.info("Logically deleted user with UUID {}.", uuid);
   }
 }

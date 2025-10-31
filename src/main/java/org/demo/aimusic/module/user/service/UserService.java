@@ -46,4 +46,10 @@ public interface UserService extends IService<User> {
    * @return the updated user's information as {@link UserInfoDto}
    */
   UserInfoDto updateUser(String uuid, UpdateUserDto updateUserDto);
+
+  /**
+   * Delete a user by UUID
+   * @param uuid the UUID of the user to delete
+   */
+  void deleteUser(String uuid);
 }

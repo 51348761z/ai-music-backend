@@ -59,4 +59,11 @@ public class UserController extends BaseController {
     UserInfoDto userInfoDto = userService.updateUser(uuid, updateUserDto);
     return ok(userInfoDto);
   }
+
+  @RequestMapping(value = "/{uuid}", method = RequestMethod.DELETE)
+  @PreAuthorize("hasRole('ADMIN')")
+  public ResponseEntity<ApiResult<Void>> deleteUser(@NotNull @PathVariable String uuid) {
+    userService.deleteUser(uuid);
+    return ok();
+  }
 }
