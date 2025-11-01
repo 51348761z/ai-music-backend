@@ -12,6 +12,11 @@ import org.springframework.context.annotation.Configuration;
 public class MinioConfig {
   private final MinioProperties minioProperties;
 
+  /**
+   * Creates and configures a MinioClient bean using properties defined in MinioProperties.
+   *
+   * @return Configured MinioClient instance.
+   */
   public MinioClient minioClient() {
     return MinioClient.builder()
         .endpoint(minioProperties.getEndpoint())
