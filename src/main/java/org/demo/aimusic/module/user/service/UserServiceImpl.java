@@ -150,4 +150,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     log.info("Logically deleted user with UUID {}.", uuid);
   }
+
+  @Override
+  public Long getIdByUuid(String uuid) {
+    return Optional.ofNullable(
+            this.baseMapper.selectOne((new LambdaQueryWrapper<User>()).eq(User::getUuid, uuid)))
+        .orElseThrow(
+            () ->
+                new BusinessException(
+                    ApiResultCode.NOT_FOUND_404, "User with UUID " + uuid + " not found."))
+        .getId();
+  }
 }

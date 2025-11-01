@@ -52,4 +52,11 @@ public interface UserService extends IService<User> {
    * @param uuid the UUID of the user to delete
    */
   void deleteUser(String uuid);
+
+  /**
+   * Get user ID by UUID
+   * @param uuid the UUID of the user
+   * @return the ID of the user
+   */
+  Long getIdByUuid(String uuid);
 }
