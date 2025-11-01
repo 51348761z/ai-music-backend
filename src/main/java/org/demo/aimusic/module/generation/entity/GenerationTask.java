@@ -49,7 +49,7 @@ public class GenerationTask {
 
   @NotNull
   @TableField("points_consumed")
-  private Integer pointsConsumed;
+  private Integer pointsConsumed = 1;
 
   @NotNull
   @TableField(value = "created_at", fill = FieldFill.INSERT)
