@@ -32,13 +32,16 @@ public class ApiResult<T> {
     this.message = message;
     this.timestamp = Instant.now().toEpochMilli();
   }
+
   private ApiResult(ApiResultCode apiResultCode) {
     this(apiResultCode.getCode(), apiResultCode.getMessage());
   }
+
   private ApiResult(ApiResultCode apiResultCode, String errorDetails) {
     this(apiResultCode.getCode(), apiResultCode.getMessage());
     this.errorDetails = errorDetails;
   }
+
   private ApiResult(int code, String message, String errorDetails) {
     this(code, message);
     this.errorDetails = errorDetails;
@@ -50,21 +53,36 @@ public class ApiResult<T> {
   public static <T> ApiResult<T> success(T data) {
     return new ApiResult<>(data);
   }
+
   public static <T> ApiResult<T> success() {
-    return new ApiResult<>(ApiResultCode.SUCCESS.getCode(), ApiResultCode.SUCCESS.getMessage(), null);
+    return new ApiResult<>(
+        ApiResultCode.SUCCESS.getCode(), ApiResultCode.SUCCESS.getMessage(), null);
   }
 
   // error
   public static <T> ApiResult<T> error(int code, String message) {
     return new ApiResult<>(code, message);
   }
+
   public static <T> ApiResult<T> error(ApiResultCode apiResultCode) {
     return new ApiResult<>(apiResultCode);
   }
+
   public static <T> ApiResult<T> error(ApiResultCode apiResultCode, String errorDetails) {
     return new ApiResult<>(apiResultCode, errorDetails);
   }
+
   public static <T> ApiResult<T> error(int code, String message, String errorDetails) {
     return new ApiResult<>(code, message, errorDetails);
+  }
+
+  public static <T> ApiResult<T> accept(T data) {
+    return new ApiResult<>(
+        ApiResultCode.ACCEPTED_202.getCode(), ApiResultCode.ACCEPTED_202.getMessage(), data);
+  }
+
+  public static <T> ApiResult<T> accept() {
+    return new ApiResult<>(
+        ApiResultCode.ACCEPTED_202.getCode(), ApiResultCode.ACCEPTED_202.getMessage(), null);
   }
 }

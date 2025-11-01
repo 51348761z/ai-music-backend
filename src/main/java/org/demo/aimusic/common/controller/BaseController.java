@@ -12,6 +12,21 @@ import org.springframework.http.ResponseEntity;
 public abstract class BaseController {
 
   /**
+   * Returns a standardized accepted response (HTTP 202 Accepted) with data payload.
+   *
+   * @param data The data to include in the response body.
+   * @param <T> The type of the data payload.
+   * @return {@link ResponseEntity} containing {@link ApiResult} with data.
+   */
+  protected <T> ResponseEntity<ApiResult<T>> accepted(T data) {
+    return ResponseEntity.accepted().body(ApiResult.accept(data));
+  }
+
+  protected <T> ResponseEntity<ApiResult<T>> accepted() {
+    return ResponseEntity.accepted().body(ApiResult.accept());
+  }
+
+  /**
    * Returns a standardized success response (HTTP 200 OK) with data payload.
    *
    * @param data The data to include in the response body.

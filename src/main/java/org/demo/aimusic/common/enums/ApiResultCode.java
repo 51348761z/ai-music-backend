@@ -6,6 +6,10 @@ import lombok.Getter;
 public enum ApiResultCode {
   SUCCESS(200, "Success"),
 
+  // Success - Async Operations (2xx)
+  ACCEPTED_202(202, "Accepted"), // Request accepted but not yet processed (async tasks)
+  NO_CONTENT_204(204, "No Content"), // Success but no content to return
+
   // Client Errors (4xx)
   BAD_REQUEST_400(400, "Bad Request"),
   UNAUTHORIZED_401(401, "Unauthorized"),
@@ -16,6 +20,7 @@ public enum ApiResultCode {
   CONFLICT_409(409, "Conflict"), // E.g., username already exists
   VALIDATION_ERROR_422(422, "Validation Error"), // Unprocessable Entity
   CAPTCHA_INVALID_422(422, "Captcha Invalid"), // For captcha validation failure
+  RESOURCE_EXHAUSTED_429(429, "Too Many Requests"), // Rate limit exceeded or insufficient resources
 
   // Server Errors (5xx)
   INTERNAL_SERVER_ERROR_500(500, "Internal Server Error"),
