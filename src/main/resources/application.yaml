@@ -1,4 +1,3 @@
-
 spring:
   application:
     name: ai-music-backend
@@ -9,6 +8,12 @@ spring:
       port: 55729
   profiles:
     active: dev
+
+app:
+  stream:
+    key: "generation-tasks-stream"
+    consumer-group: "music-generation-group"
+    consumer-name: "consumer-1"
 
 # ====================================================
 # =               General Configuration              =
