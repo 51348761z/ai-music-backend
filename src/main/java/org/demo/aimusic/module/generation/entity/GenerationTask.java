@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
+import org.demo.aimusic.module.generation.enums.TaskStatusEnum;
 
 @Getter
 @Setter
@@ -34,7 +35,7 @@ public class GenerationTask {
   @Size(max = 20)
   @NotNull
   @TableField("status")
-  private String status = "PENDING";
+  private TaskStatusEnum status = TaskStatusEnum.PENDING;
 
   @TableField("error_message")
   private String errorMessage;
