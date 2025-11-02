@@ -20,7 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -36,9 +36,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private static final String AUTHORIZATION_HEADER = "Authorization";
   private static final String BEARER_PREFIX = "Bearer ";
 
-  List<RequestMatcher> publicMatchers =
-      Arrays.stream(SecurityConstant.LOGIN_WHITELIST)
-          .map(url -> PathPatternRequestMatcher.withDefaults().matcher(url))
+//  private finale List<RequestMatcher> publicMatchers =
+//      Arrays.stream(SecurityConstant.LOGIN_WHITELIST)
+//          .map(url -> PathPatternRequestMatcher.withDefaults().matcher(url))
+//          .collect(Collectors.toList());
+
+  private final List<RequestMatcher> publicMatchers =
+      Arrays.stream(SecurityConstant.PUBLIC_URLS)
+          .map(AntPathRequestMatcher::new)
           .collect(Collectors.toList());
 
   @Override
@@ -47,6 +52,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       @NonNull HttpServletResponse response,
       @NonNull FilterChain filterChain)
       throws ServletException, IOException {
+
+    System.out.println(publicMatchers.stream().toList());
 
     if (isPublicUrl(request)) {
       log.trace("Request to public URL [{}], skipping JWT filter.", request.getRequestURL());

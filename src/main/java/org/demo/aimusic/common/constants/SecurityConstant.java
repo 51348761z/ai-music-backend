@@ -9,11 +9,12 @@ public class SecurityConstant {
       "/swagger-ui.html",
       "/error",
       "/auth/**",
-      "/dev-api/auth/**"
+      "/users/register"
   };
   public static final String[] LOGIN_WHITELIST = {
       "/dev-api/auth/login",
       "/dev-api/auth/captcha",
+      "/dev-api/users/register",
       "/error"
   };
 }
