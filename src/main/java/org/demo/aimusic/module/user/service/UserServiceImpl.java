@@ -15,6 +15,7 @@ import org.demo.aimusic.common.exception.BusinessException;
 import org.demo.aimusic.common.util.GeneratorUtil;
 import org.demo.aimusic.module.auth.dto.LoginUserDetails;
 import org.demo.aimusic.module.user.dto.CreateUserDto;
+import org.demo.aimusic.module.user.dto.RegisterDto;
 import org.demo.aimusic.module.user.dto.UpdateUserDto;
 import org.demo.aimusic.module.user.dto.UserInfoDto;
 import org.demo.aimusic.module.user.dto.UserQueryDto;
@@ -160,5 +161,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 new BusinessException(
                     ApiResultCode.NOT_FOUND_404, "User with UUID " + uuid + " not found."))
         .getId();
+  }
+
+  @Override
+  public UserInfoDto registerUser(RegisterDto registerDto) {
+    if (this.baseMapper.exists(
+        (new LambdaQueryWrapper<User>()).eq(User::getEmail, registerDto.getEmail()))) {
+      throw new BusinessException(
+          ApiResultCode.CONFLICT_409,
+          "Email " + registerDto.getEmail() + " is already registered.");
+    }
+
+    User user = User.builder()
+        .nickname(registerDto.getNickname())
+        .email(registerDto.getEmail())
+        .passwordHash(passwordEncoder.encode(registerDto.getPassword()))
+        .uuid(UUID.randomUUID().toString())
+        .userIdStr(GeneratorUtil.generatedUniqueUserIdStr())
+        .role("USER")
+        .status("ENABLED")
+        .build();
+
+    this.save(user);
+
+    return UserInfoDto.fromEntity(user);
   }
 }

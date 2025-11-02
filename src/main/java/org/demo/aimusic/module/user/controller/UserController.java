@@ -8,6 +8,7 @@ import org.demo.aimusic.common.dto.ApiResult;
 import org.demo.aimusic.common.dto.PageDto;
 import org.demo.aimusic.module.auth.dto.LoginUserDetails;
 import org.demo.aimusic.module.user.dto.CreateUserDto;
+import org.demo.aimusic.module.user.dto.RegisterDto;
 import org.demo.aimusic.module.user.dto.UpdateUserDto;
 import org.demo.aimusic.module.user.dto.UserInfoDto;
 import org.demo.aimusic.module.user.dto.UserQueryDto;
@@ -65,5 +66,12 @@ public class UserController extends BaseController {
   public ResponseEntity<ApiResult<Void>> deleteUser(@NotNull @PathVariable String uuid) {
     userService.deleteUser(uuid);
     return ok();
+  }
+
+  @RequestMapping(value = "/register", method = RequestMethod.POST)
+  public ResponseEntity<ApiResult<UserInfoDto>> registerUser(
+      @Valid @RequestBody RegisterDto registerDto) {
+    UserInfoDto userInfoDto = userService.registerUser(registerDto);
+    return ok(userInfoDto);
   }
 }

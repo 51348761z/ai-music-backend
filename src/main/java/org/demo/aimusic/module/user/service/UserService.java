@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.demo.aimusic.common.dto.PageDto;
 import org.demo.aimusic.module.auth.dto.LoginUserDetails;
 import org.demo.aimusic.module.user.dto.CreateUserDto;
+import org.demo.aimusic.module.user.dto.RegisterDto;
 import org.demo.aimusic.module.user.dto.UpdateUserDto;
 import org.demo.aimusic.module.user.dto.UserInfoDto;
 import org.demo.aimusic.module.user.dto.UserQueryDto;
@@ -59,4 +60,6 @@ public interface UserService extends IService<User> {
    * @return the ID of the user
    */
   Long getIdByUuid(String uuid);
+
+  UserInfoDto registerUser(RegisterDto registerDto);
 }
